@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Couleurs ─────────────────────────────── */
+  --color-cream: #f6efe1; /* fond principal            */
+  --color-paper: #fcf8ef; /* surfaces / cartes         */
+  --color-ink: #14382b; /* texte vert profond bouteille */
+  --color-verre: #10362a; /* sections sombres          */
+  --color-verre-deep: #0a251c;
+  --color-citron: #ffd84d; /* accent jaune agrume       */
+  --color-citron-soft: #fbe9ad;
+  --color-ligne: rgba(20, 56, 43, 0.16); /* bordures  */
+  --color-ligne-light: rgba(246, 239, 225, 0.22);
+  --color-sable: #ece2cc;
+
+  /* ── Typographies ─────────────────────────── */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+  --font-arabic: "Noto Kufi Arabic", serif;
+
+  /* ── Rayons ───────────────────────────────── */
+  --radius-card: 18px;
+}
+
+/* ── Base ───────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cream font-body text-ink antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-citron);
+  color: var(--color-verre);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.on-dark :focus-visible,
+.on-dark:focus-visible {
+  outline-color: var(--color-citron);
+}
+
+/* Grain papier très léger (statique, zéro requête) */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Révélations au scroll (CSS-first + IO) ─── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Marquee ────────────────────────────────── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+/* ── Bulles de carbonatation ───────────────── */
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-140px) scale(0.5);
+    opacity: 0;
+  }
+}
+.bubble {
+  animation: rise var(--t, 5s) linear infinite;
+  animation-delay: var(--dl, 0s);
+}
+
+/* ── Entrée du héros ────────────────────────── */
+@keyframes hero-up {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-in {
+  animation: hero-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* ── Bouton magnétique (desktop, pointer fin) ─ */
+.magnetic {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Liens à soulignement animé ─────────────── */
+.link-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-line:hover,
+.link-line:focus-visible {
+  background-size: 100% 1.5px;
+}
+
+/* ── Accessibilité : mouvement réduit ──────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
