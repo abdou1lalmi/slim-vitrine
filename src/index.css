@@ -22,6 +22,13 @@
   --radius-card: 18px;
 }
 
+/* ── Easing maison ──────────────────────────── */
+:root {
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-quart-inout: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
 /* ── Base ───────────────────────────────────── */
 html {
   scroll-behavior: smooth;
@@ -47,6 +54,19 @@ body {
   outline-color: var(--color-citron);
 }
 
+/* Scrollbar fine et brandée (WebKit) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-verre);
+  border-radius: 999px;
+  border: 3px solid var(--color-cream);
+}
+
 /* Grain papier très léger (statique, zéro requête) */
 .grain::after {
   content: "";
@@ -58,13 +78,51 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ── Texte contour (typographie monumentale) ── */
+.text-outline-faint {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(20 56 43 / 0.13);
+}
+.text-outline-ink {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(20 56 43 / 0.35);
+}
+.text-outline-cream {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(246 239 225 / 0.32);
+}
+.text-outline-citron {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(255 216 77 / 0.4);
+}
+
+/* ── Masques de lignes (entrées typographiques) ── */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  /* évite le rognage des jambages avec un interligne serré */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.line-in {
+  display: block;
+  transform: translateY(118%) rotate(1.6deg);
+  transform-origin: left top;
+  transition: transform 1s var(--ease-expo);
+  transition-delay: var(--d, 0ms);
+  will-change: transform;
+}
+.line-in.is-go {
+  transform: none;
+}
+
 /* ── Révélations au scroll (CSS-first + IO) ─── */
 [data-reveal] {
   opacity: 0;
   transform: translateY(26px);
   transition:
-    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.55s var(--ease-quart),
+    transform 0.55s var(--ease-quart);
   transition-delay: var(--d, 0ms);
 }
 [data-reveal].is-in {
@@ -83,6 +141,9 @@ body {
 }
 .marquee-track {
   animation: marquee 28s linear infinite;
+}
+.marquee-track-slow {
+  animation: marquee 46s linear infinite;
 }
 
 /* ── Bulles de carbonatation ───────────────── */
@@ -104,20 +165,84 @@ body {
   animation-delay: var(--dl, 0s);
 }
 
-/* ── Entrée du héros ────────────────────────── */
-@keyframes hero-up {
+/* ── Indice de scroll ───────────────────────── */
+@keyframes cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.cue-line {
+  animation: cue 2.2s var(--ease-quart-inout) infinite;
+}
+
+/* ── Flottement du produit ──────────────────── */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1.2deg);
+  }
+}
+.floaty {
+  animation: floaty 7s ease-in-out infinite;
+}
+
+/* ── Swap de saveur ─────────────────────────── */
+@keyframes flavor-bottle-in {
   from {
     opacity: 0;
-    transform: translateY(34px);
+    transform: translateY(52px) rotate(-5deg);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
-.hero-in {
-  animation: hero-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: var(--d, 0ms);
+.flavor-bottle {
+  animation: flavor-bottle-in 0.7s var(--ease-expo) both;
+}
+@keyframes flavor-name-in {
+  from {
+    opacity: 0;
+    transform: translateY(-22px) skewX(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.flavor-name {
+  animation: flavor-name-in 0.8s var(--ease-expo) both;
+}
+
+/* ── Mot du préchargeur ─────────────────────── */
+@keyframes preword-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.preword {
+  animation: preword-in 0.32s var(--ease-quart) both;
 }
 
 /* ── Bouton magnétique (desktop, pointer fin) ─ */
@@ -138,6 +263,37 @@ body {
   background-size: 100% 1.5px;
 }
 
+/* ── Curseur personnalisé ───────────────────── */
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 95;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: #fff;
+}
+.cursor-ring {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border-radius: 9999px;
+  border: 1.5px solid #fff;
+}
+
 /* ── Accessibilité : mouvement réduit ──────── */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -152,6 +308,9 @@ body {
   }
   [data-reveal] {
     opacity: 1;
+    transform: none;
+  }
+  .line-in {
     transform: none;
   }
 }

@@ -11,9 +11,9 @@ const NAV = [
 /* NOTE : coordonnées et liens légaux à remplacer par les valeurs réelles avant mise en ligne. */
 export function SiteFooter() {
   return (
-    <footer id="contact" className="scroll-mt-24 border-t border-ligne bg-cream" aria-labelledby="footer-title">
+    <footer id="contact" className="scroll-mt-20 overflow-hidden border-t border-ligne bg-cream" aria-labelledby="footer-title">
       <h2 id="footer-title" className="sr-only">Pied de page — contact et informations légales</h2>
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-12 md:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 pt-14 md:grid-cols-12 md:px-8">
         <div className="md:col-span-5">
           <p className="font-display text-3xl font-semibold tracking-tight">SLIM</p>
           <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.18em] text-ink/55">
@@ -66,12 +66,24 @@ export function SiteFooter() {
         </nav>
       </div>
 
-      <div className="border-t border-ligne">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-6 text-xs text-ink/55 sm:flex-row md:px-8">
-          <p>© {new Date().getFullYear()} Slim — Hamoud Boualem. Tous droits réservés.</p>
-          <p lang="ar" dir="rtl" className="font-arabic text-sm text-ink/70">صحتين !</p>
-          <p>Vitrine de démonstration — visuels et liens à finaliser.</p>
-        </div>
+      <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-ligne px-5 py-6 text-xs text-ink/55 sm:flex-row md:px-8">
+        <p>© {new Date().getFullYear()} Slim — Hamoud Boualem. Tous droits réservés.</p>
+        <p lang="ar" dir="rtl" className="font-arabic text-sm text-ink/70">صحتين !</p>
+      </div>
+
+      {/* Wordmark monumental, lettres réactives au survol */}
+      <div aria-hidden="true" className="-mb-[0.16em] select-none px-2">
+        <p className="flex items-end justify-between px-[2vw] font-display text-[clamp(4rem,19vw,20rem)] font-semibold leading-[0.82] tracking-tight text-verre">
+          {"SLIM".split("").map((ch, i) => (
+            <span
+              key={i}
+              className="inline-block origin-bottom transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-[0.06em]"
+              style={{ transitionDelay: `${i * 25}ms` }}
+            >
+              {ch}
+            </span>
+          ))}
+        </p>
       </div>
     </footer>
   );

@@ -5,6 +5,14 @@ import { Magnetic } from "./Magnetic";
 export function ClosingCTA() {
   return (
     <section className="on-dark relative overflow-hidden bg-citron py-24 sm:py-32" aria-labelledby="cta-title">
+      {/* Marquee monumental en fond */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center overflow-hidden opacity-[0.55]">
+        <div className="marquee-track-slow flex w-max whitespace-nowrap font-display text-[17vw] font-semibold uppercase leading-none tracking-tight text-verre/10">
+          <span className="pr-16">Slim · Gazouz · Slim · Gazouz ·&nbsp;</span>
+          <span className="pr-16">Slim · Gazouz · Slim · Gazouz ·&nbsp;</span>
+        </div>
+      </div>
+
       {/* Bulles décoratives */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-64 opacity-60">
         {[

@@ -88,13 +88,13 @@ function PostTile({ post, index }: { post: GalleryPost; index: number }) {
   const flavor = FLAVORS[post.flavorIndex];
   const Scene = SCENES[post.scene];
   return (
-    <li className={post.span ?? ""}>
+    <li className={`${post.span ?? ""} group`} data-reveal style={{ "--d": `${(index % 4) * 80}ms` } as React.CSSProperties}>
       <a
         href={IG_URL}
         target="_blank"
         rel="noreferrer"
         aria-label={`Publication Instagram — ${post.caption} (ouvre le profil ${IG_HANDLE})`}
-        className="group relative block overflow-hidden rounded-card border border-ligne bg-paper focus-visible:outline-offset-4"
+        className="relative block overflow-hidden rounded-card border border-ligne bg-paper transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_46px_-26px_rgba(20,56,43,0.5)] focus-visible:outline-offset-4 [&_svg]:transition-transform [&_svg]:duration-700 [&_svg]:ease-out group-hover:[&_svg]:scale-[1.06]"
       >
         <div className={`${post.ratio} w-full`}>
           <Scene liquid={flavor.liquid} deep={flavor.deep} tint={flavor.tint} />
@@ -119,7 +119,7 @@ export function SocialGallery() {
           <div className="lg:col-span-7">
             <SectionLabel>Sélection du feed</SectionLabel>
             <h2 id="feed-title" className="mt-4 font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium leading-tight tracking-tight">
-              Huit publications, choisies dans le fil.
+              Huit publications <sup className="text-[0.5em] text-citron">(08)</sup>, choisies dans le fil.
             </h2>
           </div>
           <div className="lg:col-span-5 lg:text-right">
@@ -132,7 +132,7 @@ export function SocialGallery() {
           </div>
         </div>
 
-        <ul data-reveal style={{ "--d": "100ms" } as React.CSSProperties} className="mt-12 grid auto-rows-min grid-flow-dense grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+        <ul className="mt-12 grid auto-rows-min grid-flow-dense grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
           {GALLERY.map((post, i) => (
             <PostTile key={post.id} post={post} index={i} />
           ))}
