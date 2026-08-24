@@ -8,7 +8,6 @@ const NAV = [
   { href: "#histoire", label: "Histoire" },
 ] as const;
 
-/* NOTE : coordonnées et liens légaux à remplacer par les valeurs réelles avant mise en ligne. */
 export function SiteFooter() {
   return (
     <footer id="contact" className="scroll-mt-20 overflow-hidden border-t border-ligne bg-cream" aria-labelledby="footer-title">
@@ -16,7 +15,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-7xl gap-10 px-5 pt-14 md:grid-cols-12 md:px-8">
         <div className="md:col-span-5">
           <p className="font-display text-3xl font-semibold tracking-tight">SLIM</p>
-          <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.18em] text-ink/55">
+          <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.18em] text-ink/70">
             par Hamoud Boualem — Alger
           </p>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink/70">
@@ -35,7 +34,7 @@ export function SiteFooter() {
         </div>
 
         <nav aria-label="Navigation de pied de page" className="md:col-span-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/50">Explorer</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/70">Explorer</p>
           <ul className="mt-4 space-y-2.5 text-sm font-medium">
             {NAV.map((n) => (
               <li key={n.href}>
@@ -46,27 +45,24 @@ export function SiteFooter() {
         </nav>
 
         <div className="md:col-span-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/50">Contact</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/70">Contact</p>
           <ul className="mt-4 space-y-2.5 text-sm font-medium">
-            {/* À remplacer par l'adresse réelle */}
-            <li><a href="mailto:contact@hamoud-boualem.dz" className="link-line">contact@hamoud-boualem.dz</a></li>
-            <li><span className="text-ink/55">[Téléphone — à remplacer]</span></li>
-            <li><span className="text-ink/55">Alger, Algérie</span></li>
+            <li><a href={IG_URL} target="_blank" rel="noreferrer" className="link-line">Message sur Instagram</a></li>
+            <li><span className="text-ink/70">Alger, Algérie</span></li>
           </ul>
         </div>
 
         <nav aria-label="Liens légaux" className="md:col-span-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/50">Légal</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/70">Légal</p>
           <ul className="mt-4 space-y-2.5 text-sm font-medium">
-            {/* Pages à créer avant mise en production */}
-            <li><a href="#" data-placeholder className="link-line">Mentions légales</a></li>
-            <li><a href="#" data-placeholder className="link-line">Confidentialité</a></li>
-            <li><a href="#" data-placeholder className="link-line">Cookies</a></li>
+            <li><span className="text-ink/70">Mentions légales — à publier</span></li>
+            <li><span className="text-ink/70">Confidentialité — à publier</span></li>
+            <li><span className="text-ink/70">Cookies — à publier</span></li>
           </ul>
         </nav>
       </div>
 
-      <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-ligne px-5 py-6 text-xs text-ink/55 sm:flex-row md:px-8">
+      <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-ligne px-5 py-6 text-xs text-ink/70 sm:flex-row md:px-8">
         <p>© {new Date().getFullYear()} Slim — Hamoud Boualem. Tous droits réservés.</p>
         <p lang="ar" dir="rtl" className="font-arabic text-sm text-ink/70">صحتين !</p>
       </div>

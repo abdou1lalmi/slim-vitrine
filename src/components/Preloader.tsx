@@ -13,7 +13,14 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
+    let seen = false;
+    try {
+      seen = window.sessionStorage.getItem("slim-vitrine-preloader-seen") === "1";
+    } catch {
+      // Storage can be blocked by privacy settings; keep the full reveal.
+    }
+
+    if (reduced || seen) {
       onReveal();
       setGone(true);
       return;
@@ -39,6 +46,11 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
         return;
       }
       window.clearInterval(timer);
+      try {
+        window.sessionStorage.setItem("slim-vitrine-preloader-seen", "1");
+      } catch {
+        // The preloader still completes when session storage is unavailable.
+      }
       onReveal();
       // double rAF : laisse React peindre l'état final avant la transition
       requestAnimationFrame(() => requestAnimationFrame(() => setExit(true)));

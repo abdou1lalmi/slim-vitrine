@@ -35,11 +35,17 @@ export function Hero({ ready }: { ready: boolean }) {
     let mx = 0;
     let my = 0;
     let raf = 0;
+    let visible = true;
+    const section = artRef.current?.closest("section");
     const onMove = (e: PointerEvent) => {
       mx = e.clientX / window.innerWidth - 0.5;
       my = e.clientY / window.innerHeight - 0.5;
     };
     const loop = () => {
+      if (!visible) {
+        raf = 0;
+        return;
+      }
       if (artRef.current) {
         artRef.current.style.transform = `translate3d(${mx * -18}px, ${my * -12}px, 0)`;
       }
@@ -50,11 +56,24 @@ export function Hero({ ready }: { ready: boolean }) {
       }
       raf = requestAnimationFrame(loop);
     };
+    const observer = section
+      ? new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+          if (visible && !raf) raf = requestAnimationFrame(loop);
+          if (!visible && raf) {
+            cancelAnimationFrame(raf);
+            raf = 0;
+          }
+        }, { threshold: 0 })
+      : null;
+
     window.addEventListener("pointermove", onMove, { passive: true });
+    if (observer && section) observer.observe(section);
     raf = requestAnimationFrame(loop);
     return () => {
       window.removeEventListener("pointermove", onMove);
-      cancelAnimationFrame(raf);
+      observer?.disconnect();
+      if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 

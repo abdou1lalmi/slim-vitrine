@@ -34,18 +34,28 @@ src/
     Bottle.tsx / Magnetic / SectionLabel / icons
 ```
 
-## Hypothèses à valider avant mise en ligne
+## Content and deployment assumptions
 
 1. **Visuels** : la galerie utilise des scènes SVG de démonstration. Remplacer par les
    publications réelles (voir stratégie d'intégration ci-dessous).
-2. **Domaine canonique & og:image** : `https://slim-officielle.dz/` et `/og-cover.png`
-   sont des espaces réservés — générer une image OG 1200×630 depuis le visuel du héros.
-3. **Contact** : `contact@hamoud-boualem.dz`, téléphone et pages légales (mentions,
-   confidentialité, cookies) marqués `[à remplacer]` dans `SiteFooter.tsx`.
-4. **Langue** : français principal avec accents arabes (le compte publie en FR/AR).
-   Une version AR complète ou EN nécessiterait i18n.
+2. **Canonical domain & social image**: the current canonical URL is
+   `https://abdou1lalmi.github.io/slim-vitrine/`, and `public/og-cover.png` is a generated
+   1200×630 placeholder artwork that should be replaced by owner-approved brand artwork
+   when final photography and usage rights are available.
+3. **Contact and legal copy**: the footer uses the official Instagram account as the
+   available contact route and labels legal pages as pending until approved copy and
+   destinations are supplied.
+4. **Language**: French is primary with Arabic support (the account publishes in FR/AR).
+   A complete Arabic mirror or English version would require an explicit i18n scope.
 
-## Stratégie d'intégration Instagram
+## Project documentation
+
+- `docs/PRD.md` records the product requirements, audience, user journey, acceptance criteria, and assumptions.
+- `docs/ARCHITECTURE.md` records the static runtime, data boundaries, accessibility approach, and deployment model.
+- `docs/DESIGN-SYSTEM.md` records the visual direction, tokens, responsive behavior, motion rules, and QA standards.
+- `scripts/generate_social_assets.py` regenerates the social preview artwork and favicon fallback without external services.
+
+## Instagram integration strategy
 
 - **Aucun scraping** ni hotlinking des CDN Instagram (instable et non autorisé).
 - Option A (retenue ici) : **galerie curatée manuellement** — exporter 8 visuels,
@@ -54,7 +64,7 @@ src/
   pour un rafraîchissement automatique des derniers posts.
 - Chaque tuile renvoie vers `https://www.instagram.com/slimofficielle/`.
 
-## QA — checklist
+## QA checklist
 
 | Contrôle                                   | Statut |
 | ------------------------------------------ | ------ |
